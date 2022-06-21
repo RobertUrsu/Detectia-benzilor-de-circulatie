@@ -12,7 +12,7 @@ def lanesDetection(img):
     width = img.shape[1]
 
     region_of_interest_vertices = [
-        (200, height), (width/2, height/1.37), (width-300, height)
+        (200, height), (width/2, height/1.37), (width, height)
     ]
     gray_img = cv.cvtColor(img, cv.COLOR_RGB2GRAY) # rgb to gray
     edge = cv.Canny(gray_img, 50, 100, apertureSize=3)
@@ -22,8 +22,8 @@ def lanesDetection(img):
     lines = cv.HoughLinesP(cropped_image, rho=2, theta=np.pi/180,
                            threshold=50, lines=np.array([]), minLineLength=10, maxLineGap=30) # detecteaza liniile din imaginea decupata
     image_with_lines = draw_lines(img, lines)
-    # plt.imshow(image_with_lines)
-    # plt.show()
+    #plt.imshow(image_with_lines)
+    #plt.show()
     return image_with_lines
 
 # defineste regiunea de interes din imagine
@@ -48,11 +48,11 @@ def draw_lines(img, lines):
 
 
 def videoLanes():
-    cap = cv.VideoCapture('./img/video.mp4') # este preluat videoclipul din folder
+    cap = cv.VideoCapture('./img/v1.mp4') # este preluat videoclipul din folder
     while(cap.isOpened()):
         ret, frame = cap.read() # memoreaza frame-ul
         frame = lanesDetection(frame) # apeleaza functia avand ca parametru frame-ul respectiv
-        cv.imshow('Lanes Detection', frame) # afiseaza frame-urile
+        cv.imshow('Detectia benzilor de circulatie', frame) # afiseaza frame-urileq
         if cv.waitKey(1) & 0xFF == ord('q'): # se inchide programul prin apasarea tastei Q
             break
 
